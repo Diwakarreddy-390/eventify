@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Events - Eventify</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS file -->
+    <style>
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .form-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-right: 50px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">user Panel</a>
+            
+            <!-- Centered Admin Name -->
+            <div class="mx-auto text-white">
+                <strong>Welcome back, {{ name[0] or 'Admin' }}...!</strong>
+            </div>
+    
+            <!-- Logout Button on the Right -->
+            <div>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+<!-- View Your Bookings Button -->
+<div class="container d-flex justify-content-center mt-5">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-info">View Your Bookings</a>
+</div>
+
+<!-- Location Selection -->
+<div class="container mt-4">
+    <form action="/events" method="POST" class="form-container">
+        <div class="form-group mx-2">
+            <label for="location"></label>
+            <select name="location" id="location" class="form-control" required>
+                <option value="#" selected>Select a Location</option>
+                {% for city in ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Pune", "Surat", "Jaipur"] %}
+                <option value="{{ city }}" {% if selected_location == city %}selected{% endif %}>{{ city }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- Event Cards -->
+<div class="container mt-4">
+    <div class="row">
+        {% for event in events %}
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text"><strong>Date & Time:</strong> {{ event.date_time }}</p>
+                    <p class="card-text"><strong>Description:</strong> {{ event.description }}</p>
+                </div>
+                <img src="{{ url_for('static', filename='uploads/' + (event.image or 'default.jpg')) }}" alt="Event Image" class="img-fluid rounded">
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('buy_ticket', event_id=event.id) }}" class="btn btn-success">Buy Ticket</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
