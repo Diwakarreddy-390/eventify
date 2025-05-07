@@ -102,19 +102,21 @@ def create_event():
         description = request.form.get("description")
         image = request.files.get("image")
 
-        if not title or not date or not location or not description:
+        # Validate required fields
+        if not all([title, date, location, description]):
             return "All fields are required!", 400
 
         email = session.get("email")
         if not email:
             return redirect(url_for('login'))
 
-        image_data = None
-        if image and image.filename:
-            image_data = image.read()  # Read image as binary data
+        image_data = image.read() if image and image.filename else None  # Read image as binary
 
-        # Pass image_data instead of filename to DB
-        create(title, date, location, description, image_data, email)
+        try:
+            # Ensure create() function correctly inserts image_data
+            create(title, date, location, description, image_data, email)
+        except Exception as e:
+            return f"Error saving event: {str(e)}", 500
 
         return redirect(url_for('admin_dashboard'))
 
