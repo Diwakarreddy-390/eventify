@@ -13,7 +13,7 @@ def get_connection():
     )
 conn = get_connection()
 cursor = conn.cursor()
-cursor.execute("ALTER TABLE events ADD COLUMN image LONGBLOB;")
+cursor.execute("DESCRIBE events;")
 details = cursor.fetchall()
 print(details)
 
