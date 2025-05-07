@@ -100,27 +100,26 @@ def create_event():
         date = request.form.get("date_time")
         location = request.form.get("location")
         description = request.form.get("description")
-        image = request.files.get("image")  # Ensure image retrieval safely
+        image = request.files.get("image")
 
         if not title or not date or not location or not description:
             return "All fields are required!", 400
 
         email = session.get("email")
         if not email:
-            return redirect(url_for('login'))  
+            return redirect(url_for('login'))
 
-        filename = None  
-        app.config["UPLOAD_FOLDER"] = "static/uploads"
+        image_data = None
         if image and image.filename:
-            filename = secure_filename(image.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            image.save(filepath)
+            image_data = image.read()  # Read image as binary data
 
-        create(title, date, location, description, filename, email)
+        # Pass image_data instead of filename to DB
+        create(title, date, location, description, image_data, email)
 
         return redirect(url_for('admin_dashboard'))
 
     return render_template('create_event.html')
+
 
 @app.route('/edit_event/<string:event_title>', methods=['POST', 'GET'])
 def edit_event(event_title):
