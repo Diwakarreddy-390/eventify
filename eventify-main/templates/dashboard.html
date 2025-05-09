@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Events - Eventify</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
+        <a class="navbar-brand" href="#">My Dashboard</a>
+    
+        <div class="ml-auto">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </nav>
+
+<div class="container mt-5">
+    <h2 class="text-success mb-4">My Registered Events</h2>
+    {% for event in events %}
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{event.title}}
+            <span class="badge badge-primary badge-pill">{{event.date}}</span>
+        </li>
+    </ul>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-center mt-4">
+    
+    <a href="{{ url_for('events') }}" class="btn btn-link mx-2">← Back</a>
+</div>
+</body>
+</html>
+

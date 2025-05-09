@@ -1,4 +1,7 @@
 from db_connecetion import get_connection
+import base64
+from PIL import Image
+from io import BytesIO
 class Login:
     def __init__(self,email):
         self.email = email
@@ -15,12 +18,35 @@ class Login:
     def admin_events(self):
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT title, date_time, image, description,location FROM events WHERE created=%s", (self.email,))
+
+        cursor.execute("SELECT title, date_time, description, location, photo, image FROM events WHERE created=%s", (self.email,))
         events = cursor.fetchall()
-        event_list = [{"title": row[0], "event_datetime": row[1], "image_name": row[2], "description": row[3],"location":row[4]} for row in events]
+        event_list = []
+
+        for row in events:
+            if row[4]:
+                photo_base64 = base64.b64encode(row[4]).decode('utf-8')
+                photo_data = f"data:image/jpeg;base64,{photo_base64}"
+            else:
+                photo_data = None
+
+            event_list.append({
+                "title": row[0],
+                "event_datetime": row[1],
+                "description": row[2],
+                "location": row[3],
+                "photo": photo_data,
+                "image_name": row[5]
+            })
+
         cursor.close()
         conn.close()
+
         return event_list
+
+
+
+    
     def event_count(self):
         conn = get_connection()
         cursor = conn.cursor()
@@ -29,6 +55,7 @@ class Login:
         cursor.close()
         conn.close()
         return events[0] if events else 0
+    
     def name(self):
         conn = get_connection()
         cursor = conn.cursor()
@@ -36,8 +63,36 @@ class Login:
         name = cursor.fetchone()
         return name
     
+    def explore(self):
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT title, date_time, description, location, photo, image FROM events")
+            events = cursor.fetchall()
+            event_list = []
+
+            for event in events:
+                photo_data = None
+                if event[4]:
+                    photo_base64 = base64.b64encode(event[4]).decode('utf-8')
+                    photo_data = f"data:image/jpeg;base64,{photo_base64}"
+
+                event_list.append({
+                    "title": event[0],
+                    "event_datetime": event[1],
+                    "description": event[2],
+                    "location": event[3],
+                    "photo": photo_data,
+                    "image": event[5]
+                })
+            return event_list
+        finally:
+            cursor.close()
+            conn.close()
+
+            
 
 
-    
+            
 
 

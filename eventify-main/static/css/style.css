@@ -1,0 +1,97 @@
+
+
+body {
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background-color: #f4f7f8;
+}
+
+.hero-section {
+   background: linear-gradient(to right, #007bff, #6610f2);
+   padding: 100px 0;
+}
+
+.hero-section h1 {
+   font-size: 3rem;
+   font-weight: 700;
+}
+
+.hero-section p {
+   font-size: 1.3rem;
+}
+
+.btn-primary {
+   background-color: #ff4081;
+   border: none;
+}
+
+.btn-primary:hover {
+   background-color: #e91e63;
+}
+
+.footer {
+   background-color: #222;
+   color: #ddd;
+}
+
+h4 {
+   color: #333;
+   font-weight: 600;
+}
+
+
+.login-bg {
+   background: linear-gradient(to right, #6a11cb, #2575fc);
+   height: 100vh;
+}
+
+.login-card {
+   width: 100%;
+   max-width: 400px;
+   border-radius: 1rem;
+   background-color: white;
+}
+
+.card-title {
+   color: #343a40;
+   font-weight: bold;
+}
+
+.btn-success {
+   background-color: #28a745;
+   border: none;
+}
+
+.btn-success:hover {
+   background-color: #218838;
+}
+
+.card {
+   height: 100%;  
+   display: flex;
+   flex-direction: column;
+}
+
+.card img {
+   max-height: 200px; 
+}
+.card {
+   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+   cursor: pointer;
+}
+
+.card:hover {
+   transform: scale(1.05);
+   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-body {
+   text-align: center;
+}
+
+.card-title {
+   font-weight: bold;
+}
+
+.card-text {
+   font-size: 16px;
+}

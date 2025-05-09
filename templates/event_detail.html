@@ -20,12 +20,15 @@
                     <p class="card-text"><strong>Date & Time:</strong> {{ event.date_time }}</p>
                     <p class="card-text"><strong>Description:</strong> {{ event.description }}</p>
                 </div>
-                <img src="{{ url_for('static', filename='uploads/' + (event.image or 'default.jpg')) }}" alt="Event Image" class="img-fluid rounded">
+                <img src="{{ (event.photo_data or 'default.jpg') }}" alt="Event Image" class="img-fluid rounded">
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+<div class="d-flex justify-content-center mt-4">
 
+    <a href="{{ url_for('index') }}" class="btn btn-link mx-2">← Back</a>
+</div>
 </body>
 </html>

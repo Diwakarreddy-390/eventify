@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Eventify</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-bg">
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg login-card">
+        <h3 class="text-center mb-4 text-success">Create Your Account</h3>
+        {% if error %}
+          <p class="text-center text-danger">{{ error }}</p>
+        {% endif %}
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" href="name" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" name="email" href="email" class="form-control" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" href="password" class="form-control" placeholder="Create password" required>
+            </div>
+            <div class="form-group">
+                <label for="user_type">User Type</label>
+                <select name="user_type" id="user_type" class="form-control" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-success btn-block mt-3">Register</button>
+            <p class="text-center mt-3">Already have an account? 
+                <a href="login">Login</a>
+            </p>
+            <p class="text-center">
+                <a href="{{ url_for('index') }}" class="btn btn-link">← Back to Home</a>
+            </p>  
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

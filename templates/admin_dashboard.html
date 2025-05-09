@@ -66,7 +66,12 @@
                     <p class="card-text"><strong>Date & Time:</strong> {{ event.event_datetime }}</p>
                     <p class="card-text"><strong>Description:</strong> {{ event.description }}</p>
                     <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
-                    <img src="{{ url_for('static', filename='uploads/' + (event.image_name or 'default.jpg')) }}" alt="Event Image" class="img-fluid rounded mt-2" />
+                    
+                    
+                        <!-- Base64-encoded image -->
+                    <img src="{{ event.photo }}" alt="Event Image" class="img-fluid rounded mt-2" />
+                    
+                    
                     <a href="{{ url_for('edit_event', event_title=event.title) }}" class="btn btn-outline-warning mt-2">Edit</a>
                 </div>
             </div>

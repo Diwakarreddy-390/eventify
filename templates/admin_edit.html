@@ -42,7 +42,7 @@
 
           <div class="form-group">
             <label>Current Image</label><br />
-            <img src="{{ url_for('static', filename='uploads/' + (event.image_name or 'default.jpg')) }}" alt="Event Image" class="img-fluid mb-3" />
+            <img src="{{ event.photo }}" alt="Event Image" class="img-fluid mb-3" />
             <label for="image">Upload New Image (optional)</label>
             <input type="file" name="image" href="image" id="image" class="form-control-file" accept="image/*" />
           </div>

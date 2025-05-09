@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard - Eventify</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+        .card:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+            transition: all 0.2s ease-in-out;
+        }
+        .logout-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">Admin Panel</a>
+            
+            <!-- Centered Admin Name -->
+            <div class="mx-auto text-white">
+                <strong>Welcome back, {{ name or 'Admin' }}...!</strong>
+            </div>
+    
+            <!-- Logout Button on the Right -->
+            <div>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+
+<!-- Dashboard Overview -->
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">Dashboard Overview</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Events Created</h5>
+                    <p class="card-text"><strong>Events Count: </strong><span id="total-events">{{ event_count }}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{{ url_for('create_event') }}" class="btn btn-outline-primary mt-3">Create New Event</a>
+</div>
+
+<!-- Your Events -->
+<div class="container mt-4">
+    <h3 class="text-secondary mb-3">Your Events</h3>
+    <div class="row">
+        {% for event in events %}
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text"><strong>Date & Time:</strong> {{ event.event_datetime }}</p>
+                    <p class="card-text"><strong>Description:</strong> {{ event.description }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
+                    <img src="{{ url_for('static', filename='uploads/' + (event.image_name or 'default.jpg')) }}" alt="Event Image" class="img-fluid rounded mt-2" />
+                    <a href="{{ url_for('edit_event', event_title=event.title) }}" class="btn btn-outline-warning mt-2">Edit</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- JavaScript Fetch for Dynamic Updates -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/dashboard_data")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("total-events").textContent = data.total_events;
+            })
+            .catch(error => console.error("Error fetching dashboard data:", error));
+    });
+</script>
+
+</body>
+</html>
