@@ -19,7 +19,7 @@
                     <h5 class="card-title">{{ event.title }}</h5>
                     <p class="card-text"><strong>Date & Time:</strong> {{ event.event_datetime }}</p>
                     <p class="card-text"><strong>Description:</strong> {{ event.description }}</p>
-                    <p class="card-text"><strong>Location:</strong> {{ event.Location }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
                 </div>
                 <img src="{{ (event.photo_data or 'default.jpg') }}" alt="Event Image" class="img-fluid rounded">
             </div>
