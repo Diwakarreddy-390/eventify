@@ -75,7 +75,7 @@ def enter_otp():
         else:
             return render_template('enter_otp.html', error="Incorrect OTP! Try again.")
 
-    return render_template('enter_otp.html')
+    return render_template('enter_otp.html',email=session.get('email'))
 
 @app.route('/events', methods=['POST', 'GET'])
 def events():

@@ -13,7 +13,8 @@
             <p style="color: red;">{{ error }}</p>
         {% endif %}
         <form method="POST">
-            <label for="otp">Enter OTP:</label>
+            <label for="otp">Enter OTP:</label><br>
+            <label for="otp">OTP sent to : {{ email }}</label>
             <input type="text" name="otp" class="form-control" placeholder="Enter OTP" required>
             <button type="submit" id="otp" class="btn btn-primary btn-block mt-3">Verify OTP</button>
         </form>
