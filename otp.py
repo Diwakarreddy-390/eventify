@@ -5,7 +5,8 @@ import os  # Import to access environment variables
 def send_otp_to_email(email, otp):
     """Function to send OTP via email"""
     msg = EmailMessage()
-    msg.set_content(f"Your OTP for registration is {otp}")
+    msg.set_content(f"""Your OTP for eventify website created by Diwakar reddy  
+                    OTP = {otp}""")
     msg["Subject"] = "OTP Verification"
     msg["From"] = "d8349934@gmail.com"
     msg["To"] = email
