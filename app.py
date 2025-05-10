@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 from create_event import create
 from db_connecetion import get_connection
 from show_events import show
+import random
+from otp import send_otp_to_email
 
 app = Flask(__name__)
 app.secret_key = "12345" 
@@ -38,19 +40,42 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """Handles user registration and OTP sending"""
     if request.method == 'POST':
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
-        user = request.form.get('user_type')
-
-        if Register(name, email, password, user):
-            return redirect(url_for('login'))
-        else:
-            return render_template('register.html', error="Email already exists!")
+        user = request.form.get("user_type")
+        confirm = request.form.get("confirm_password")
+        if password==confirm:  # Check registration success
+            session['otp'] = random.randint(100000, 999999)  # Generate OTP
+            session['name'] = name  # Store name in session
+            session['email'] = email  # Store email in session
+            session['user_type'] = user
+            session['password']=password
+            otp_sent = send_otp_to_email(email, session['otp'])
+            if otp_sent:
+                print("OTP sent successfully, redirecting...")
+                return redirect(url_for('enter_otp'))  # Redirect to OTP page
+            else:
+                print("Error: OTP sending failed.")
+                return render_template('register.html', error="Failed to send OTP! Try again.")
 
     return render_template('register.html')
 
+            
+@app.route('/enter_otp', methods=['GET', 'POST'])
+def enter_otp():
+    if request.method == 'POST':
+        entered_otp = request.form.get("otp")
+
+        if entered_otp and str(entered_otp) == str(session.get('otp')):
+            Register(session.get('name'),session.get('email'),session.get('password'),session.get('user_type'),)
+            return redirect(url_for('login'))  # Successful OTP verification
+        else:
+            return render_template('enter_otp.html', error="Incorrect OTP! Try again.")
+
+    return render_template('enter_otp.html')
 
 @app.route('/events', methods=['POST', 'GET'])
 def events():
